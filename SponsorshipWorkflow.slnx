@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Sponsorship.API/Sponsorship.API.csproj" />
+  <Project Path="Sponsorship.Application/Sponsorship.Application.csproj" />
+  <Project Path="Sponsorship.Domain/Sponsorship.Domain.csproj" />
+  <Project Path="Sponsorship.Infrastructure/Sponsorship.Infrastructure.csproj" />
+</Solution>
