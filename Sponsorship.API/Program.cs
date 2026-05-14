@@ -1,10 +1,12 @@
 
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sponsorship.Application.Common;
 using Sponsorship.Application.Interfaces;
+using Sponsorship.Application.Validators;
 using Sponsorship.Infrastructure.Authentication;
 using Sponsorship.Infrastructure.Persistence;
 using Sponsorship.Infrastructure.Services;
@@ -34,6 +36,14 @@ namespace Sponsorship.API
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+            builder.Services.AddValidatorsFromAssemblyContaining<CreateSponsorshipRequestValidator>();
+
+            builder.Services.AddHttpContextAccessor();
+
+            builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            builder.Services.AddScoped<ISponsorshipRequestService, SponsorshipRequestService>();
 
             // JWT Authentication
             var jwtSettings = builder.Configuration
