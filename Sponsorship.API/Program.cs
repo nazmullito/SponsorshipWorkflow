@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using Sponsorship.API.Middleware;
 using Sponsorship.Application.Common;
 using Sponsorship.Application.Interfaces;
 using Sponsorship.Application.Validators;
@@ -38,6 +40,8 @@ namespace Sponsorship.API
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             builder.Services.AddValidatorsFromAssemblyContaining<CreateSponsorshipRequestValidator>();
+
+            builder.Services.AddFluentValidationAutoValidation();
 
             builder.Services.AddHttpContextAccessor();
 
@@ -109,6 +113,8 @@ namespace Sponsorship.API
             app.UseSwagger();
 
             app.UseSwaggerUI();
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseHttpsRedirection();
 

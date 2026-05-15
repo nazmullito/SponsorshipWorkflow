@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Sponsorship.Application.Common;
 using Sponsorship.Application.DTOs.Requests;
 using Sponsorship.Application.Interfaces;
+using Sponsorship.Domain.Entities;
 
 namespace Sponsorship.API.Controllers
 {
@@ -18,43 +20,56 @@ namespace Sponsorship.API.Controllers
         }
 
         [HttpGet("my")]
+        [Authorize(Roles = "Requestor")]
         public async Task<IActionResult> GetMyRequests()
         {
-            return Ok(await _service.GetMyRequestsAsync());
+            var result = await _service.GetMyRequestsAsync();
+
+            return Ok(ApiResponse<List<SponsorshipRequest>>.SuccessResponse(result, "Requests retrieved successfully"));
         }
 
         [HttpGet("pending-manager")]
         [Authorize(Roles = "Manager")]
         public async Task<IActionResult> GetPendingManager()
         {
-            return Ok(await _service.GetPendingManagerRequestsAsync());
+            var result = await _service.GetPendingManagerRequestsAsync();
+
+            return Ok(ApiResponse<List<SponsorshipRequest>>.SuccessResponse(result, "Pending manager requests retrieved successfully"));
         }
 
         [HttpGet("pending-finance")]
         [Authorize(Roles = "FinanceAdmin")]
         public async Task<IActionResult> GetPendingFinance()
         {
-            return Ok(await _service.GetPendingFinanceRequestsAsync());
+            var result = await _service.GetPendingFinanceRequestsAsync();
+
+            return Ok(ApiResponse<List<SponsorshipRequest>>.SuccessResponse(result, "Pending finance requests retrieved successfully"));
         }
 
         [HttpGet("{id}/history")]
         public async Task<IActionResult> GetHistory(Guid id)
         {
-            return Ok(await _service.GetHistoryAsync(id));
+            var result = await _service.GetHistoryAsync(id);
+
+            return Ok(ApiResponse<List<ApprovalHistory>>.SuccessResponse(result, "Workflow history retrieved successfully"));
         }
 
         [HttpPost]
         [Authorize(Roles = "Requestor")]
         public async Task<IActionResult> Create(CreateSponsorshipRequestDto dto)
         {
-            return Ok(await _service.CreateAsync(dto));
+            var result = await _service.CreateAsync(dto);
+
+            return Ok(ApiResponse<SponsorshipRequest>.SuccessResponse(result, "Request created successfully"));
         }
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Requestor")]
         public async Task<IActionResult> Update(Guid id, UpdateSponsorshipRequestDto dto)
         {
-            return Ok(await _service.UpdateAsync(id, dto));
+            var result = await _service.UpdateAsync(id, dto);
+
+            return Ok(ApiResponse<SponsorshipRequest>.SuccessResponse(result, "Request updated successfully"));
         }
 
         [HttpPost("{id}/submit")]
@@ -63,7 +78,7 @@ namespace Sponsorship.API.Controllers
         {
             await _service.SubmitAsync(id);
 
-            return Ok();
+            return Ok(ApiResponse<object>.SuccessResponse(null, "Request submitted successfully"));
         }
 
         [HttpPost("{id}/cancel")]
@@ -72,7 +87,7 @@ namespace Sponsorship.API.Controllers
         {
             await _service.CancelAsync(id);
 
-            return Ok();
+            return Ok(ApiResponse<object>.SuccessResponse(null, "Request cancelled successfully"));
         }
 
         [HttpPost("{id}/manager-approve")]
@@ -81,7 +96,7 @@ namespace Sponsorship.API.Controllers
         {
             await _service.ManagerApproveAsync(id, dto.Remarks);
 
-            return Ok();
+            return Ok(ApiResponse<object>.SuccessResponse(null, "Request approved by manager"));
         }
 
         [HttpPost("{id}/manager-reject")]
@@ -90,7 +105,7 @@ namespace Sponsorship.API.Controllers
         {
             await _service.ManagerRejectAsync(id, dto.Remarks);
 
-            return Ok();
+            return Ok(ApiResponse<object>.SuccessResponse(null, "Request rejected by manager"));
         }
 
         [HttpPost("{id}/finance-approve")]
@@ -99,7 +114,7 @@ namespace Sponsorship.API.Controllers
         {
             await _service.FinanceApproveAsync(id, dto.Remarks);
 
-            return Ok();
+            return Ok(ApiResponse<object>.SuccessResponse(null, "Request approved by finance"));
         }
 
         [HttpPost("{id}/finance-reject")]
@@ -108,7 +123,7 @@ namespace Sponsorship.API.Controllers
         {
             await _service.FinanceRejectAsync(id, dto.Remarks);
 
-            return Ok();
+            return Ok(ApiResponse<object>.SuccessResponse(null, "Request rejected by finance"));
         }
     }
 }

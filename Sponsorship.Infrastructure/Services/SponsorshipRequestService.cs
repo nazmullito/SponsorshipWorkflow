@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sponsorship.Application.Common.Exceptions;
 using Sponsorship.Application.DTOs.Requests;
 using Sponsorship.Application.Interfaces;
 using Sponsorship.Domain.Entities;
@@ -49,7 +50,7 @@ namespace Sponsorship.Infrastructure.Services
 
             if (entity.Status != SponsorshipRequestStatus.Draft)
             {
-                throw new Exception(
+                throw new BadRequestException(
                     "Only draft requests can be edited");
             }
 
@@ -92,7 +93,7 @@ namespace Sponsorship.Infrastructure.Services
 
             if (entity.Status == SponsorshipRequestStatus.Approved)
             {
-                throw new Exception(
+                throw new BadRequestException(
                     "Approved request cannot be cancelled");
             }
 
@@ -209,7 +210,7 @@ namespace Sponsorship.Infrastructure.Services
 
             if (entity is null)
             {
-                throw new Exception("Request not found");
+                throw new NotFoundException("Request not found");
             }
 
             return entity;
@@ -224,7 +225,7 @@ namespace Sponsorship.Infrastructure.Services
 
             if (entity is null)
             {
-                throw new Exception("Request not found");
+                throw new NotFoundException("Request not found");
             }
 
             return entity;
@@ -256,7 +257,7 @@ namespace Sponsorship.Infrastructure.Services
 
             if (!valid)
             {
-                throw new Exception(
+                throw new BadRequestException(
                     $"Invalid workflow transition from {current} to {target}");
             }
         }
@@ -265,7 +266,7 @@ namespace Sponsorship.Infrastructure.Services
         {
             if (_currentUser.Role != role)
             {
-                throw new UnauthorizedAccessException(
+                throw new ForbiddenException(
                     "Access denied");
             }
         }

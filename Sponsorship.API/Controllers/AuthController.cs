@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sponsorship.Application.Common;
 using Sponsorship.Application.DTOs.Auth;
 using Sponsorship.Application.Interfaces;
 using Sponsorship.Infrastructure.Persistence;
@@ -32,27 +33,27 @@ namespace Sponsorship.API.Controllers
 
             if (user is null)
             {
-                return Unauthorized("Invalid credentials");
+                return Unauthorized(ApiResponse<object>.FailureResponse("Invalid credentials"));
             }
 
-            var validPassword = _passwordHasher.Verify(
-                request.Password,
-                user.PasswordHash);
+            var validPassword = _passwordHasher.Verify(request.Password, user.PasswordHash);
 
             if (!validPassword)
             {
-                return Unauthorized("Invalid credentials");
+                return Unauthorized(ApiResponse<object>.FailureResponse("Invalid credentials"));
             }
 
             var token = _jwtTokenService.GenerateToken(user);
 
-            return Ok(new LoginResponseDto
+            var response = new LoginResponseDto
             {
                 Token = token,
                 Email = user.Email,
                 Role = user.Role.ToString(),
                 Name = user.Name
-            });
+            };
+
+            return Ok(ApiResponse<LoginResponseDto>.SuccessResponse(response, "Login successful"));
         }
     }
 }
