@@ -49,6 +49,8 @@ namespace Sponsorship.API
 
             builder.Services.AddScoped<ISponsorshipRequestService, SponsorshipRequestService>();
 
+            builder.Services.AddScoped<IDashboardService, DashboardService>();
+
             // JWT Authentication
             var jwtSettings = builder.Configuration
                 .GetSection("JwtSettings")
@@ -73,8 +75,6 @@ namespace Sponsorship.API
                                 Encoding.UTF8.GetBytes(jwtSettings.Secret))
                         };
                 });
-
-            // Add services to the container.
 
             builder.Services.AddControllers();
 
