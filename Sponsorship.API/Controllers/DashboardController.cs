@@ -19,7 +19,7 @@ namespace Sponsorship.API.Controllers
         }
 
         [HttpGet("summary")]
-        public async Task<IActionResult> GetSummary()
+        public async Task<ActionResult<ApiResponse<DashboardSummaryDto>>> GetSummary()
         {
             var result = await _service.GetSummaryAsync();
 

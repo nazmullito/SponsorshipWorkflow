@@ -71,7 +71,7 @@ namespace Sponsorship.Infrastructure.Services
             return entity;
         }
 
-        public async Task SubmitAsync(Guid id)
+        public async Task<SponsorshipRequest> SubmitAsync(Guid id)
         {
             var entity = await GetOwnedRequest(id);
 
@@ -85,9 +85,11 @@ namespace Sponsorship.Infrastructure.Services
             await AddHistory(entity.Id, "Submitted", oldStatus, entity.Status);
 
             await _context.SaveChangesAsync();
+
+            return entity;
         }
 
-        public async Task CancelAsync(Guid id)
+        public async Task<SponsorshipRequest> CancelAsync(Guid id)
         {
             var entity = await GetOwnedRequest(id);
 
@@ -104,9 +106,11 @@ namespace Sponsorship.Infrastructure.Services
             await AddHistory(entity.Id, "Cancelled", oldStatus, entity.Status);
 
             await _context.SaveChangesAsync();
+
+            return entity;
         }
 
-        public async Task ManagerApproveAsync(Guid id, string? remarks)
+        public async Task<SponsorshipRequest> ManagerApproveAsync(Guid id, string? remarks)
         {
             EnsureRole("Manager");
 
@@ -121,9 +125,11 @@ namespace Sponsorship.Infrastructure.Services
             await AddHistory(entity.Id, "Manager Approved", oldStatus, entity.Status, remarks);
 
             await _context.SaveChangesAsync();
+
+            return entity;
         }
 
-        public async Task ManagerRejectAsync(Guid id, string? remarks)
+        public async Task<SponsorshipRequest> ManagerRejectAsync(Guid id, string? remarks)
         {
             EnsureRole("Manager");
 
@@ -136,9 +142,11 @@ namespace Sponsorship.Infrastructure.Services
             await AddHistory(entity.Id, "Manager Rejected", oldStatus, entity.Status, remarks);
 
             await _context.SaveChangesAsync();
+
+            return entity;
         }
 
-        public async Task FinanceApproveAsync(Guid id, string? remarks)
+        public async Task<SponsorshipRequest> FinanceApproveAsync(Guid id, string? remarks)
         {
             EnsureRole("FinanceAdmin");
 
@@ -153,9 +161,11 @@ namespace Sponsorship.Infrastructure.Services
             await AddHistory(entity.Id, "Finance Approved", oldStatus, entity.Status, remarks);
 
             await _context.SaveChangesAsync();
+
+            return entity;
         }
 
-        public async Task FinanceRejectAsync(Guid id, string? remarks)
+        public async Task<SponsorshipRequest> FinanceRejectAsync(Guid id, string? remarks)
         {
             EnsureRole("FinanceAdmin");
 
@@ -168,6 +178,8 @@ namespace Sponsorship.Infrastructure.Services
             await AddHistory(entity.Id, "Finance Rejected", oldStatus, entity.Status, remarks);
 
             await _context.SaveChangesAsync();
+
+            return entity;
         }
 
         public async Task<List<SponsorshipRequest>> GetMyRequestsAsync()

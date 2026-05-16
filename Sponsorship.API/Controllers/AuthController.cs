@@ -26,7 +26,7 @@ namespace Sponsorship.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequestDto request)
+        public async Task<ActionResult<ApiResponse<LoginResponseDto>>> Login(LoginRequestDto request)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(x => x.Email == request.Email);

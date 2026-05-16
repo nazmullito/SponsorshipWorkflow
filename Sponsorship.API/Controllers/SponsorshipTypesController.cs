@@ -20,7 +20,7 @@ namespace Sponsorship.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<ApiResponse<List<SponsorshipType>>>> GetAll()
         {
             var data = await _context.SponsorshipTypes
                 .OrderBy(x => x.Name)
@@ -30,7 +30,7 @@ namespace Sponsorship.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(SponsorshipType request)
+        public async Task<ActionResult<ApiResponse<SponsorshipType>>> Create(SponsorshipType request)
         {
             request.Id = Guid.NewGuid();
 

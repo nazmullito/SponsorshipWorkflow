@@ -12,17 +12,17 @@ namespace Sponsorship.Application.Interfaces
             Guid id,
             UpdateSponsorshipRequestDto dto);
 
-        Task SubmitAsync(Guid id);
+        Task<SponsorshipRequest> SubmitAsync(Guid id);
 
-        Task CancelAsync(Guid id);
+        Task<SponsorshipRequest> CancelAsync(Guid id);
 
-        Task ManagerApproveAsync(Guid id, string? remarks);
+        Task<SponsorshipRequest> ManagerApproveAsync(Guid id, string? remarks);
 
-        Task ManagerRejectAsync(Guid id, string? remarks);
+        Task<SponsorshipRequest> ManagerRejectAsync(Guid id, string? remarks);
 
-        Task FinanceApproveAsync(Guid id, string? remarks);
+        Task<SponsorshipRequest> FinanceApproveAsync(Guid id, string? remarks);
 
-        Task FinanceRejectAsync(Guid id, string? remarks);
+        Task<SponsorshipRequest> FinanceRejectAsync(Guid id, string? remarks);
 
         Task<List<SponsorshipRequest>> GetMyRequestsAsync();
 

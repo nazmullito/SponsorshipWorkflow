@@ -15,8 +15,7 @@ namespace Sponsorship.Infrastructure.Services
             _context = context;
         }
 
-        public async Task<DashboardSummaryDto>
-            GetSummaryAsync()
+        public async Task<DashboardSummaryDto> GetSummaryAsync()
         {
             return new DashboardSummaryDto
             {

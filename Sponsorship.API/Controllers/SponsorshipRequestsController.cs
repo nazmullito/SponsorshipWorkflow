@@ -21,7 +21,7 @@ namespace Sponsorship.API.Controllers
 
         [HttpGet("my")]
         [Authorize(Roles = "Requestor")]
-        public async Task<IActionResult> GetMyRequests()
+        public async Task<ActionResult<ApiResponse<List<SponsorshipRequest>>>> GetMyRequests()
         {
             var result = await _service.GetMyRequestsAsync();
 
@@ -30,7 +30,7 @@ namespace Sponsorship.API.Controllers
 
         [HttpGet("pending-manager")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> GetPendingManager()
+        public async Task<ActionResult<ApiResponse<List<SponsorshipRequest>>>> GetPendingManager()
         {
             var result = await _service.GetPendingManagerRequestsAsync();
 
@@ -39,7 +39,7 @@ namespace Sponsorship.API.Controllers
 
         [HttpGet("pending-finance")]
         [Authorize(Roles = "FinanceAdmin")]
-        public async Task<IActionResult> GetPendingFinance()
+        public async Task<ActionResult<ApiResponse<List<SponsorshipRequest>>>> GetPendingFinance()
         {
             var result = await _service.GetPendingFinanceRequestsAsync();
 
@@ -47,7 +47,7 @@ namespace Sponsorship.API.Controllers
         }
 
         [HttpGet("{id}/history")]
-        public async Task<IActionResult> GetHistory(Guid id)
+        public async Task<ActionResult<ApiResponse<List<SponsorshipRequest>>>> GetHistory(Guid id)
         {
             var result = await _service.GetHistoryAsync(id);
 
@@ -56,7 +56,7 @@ namespace Sponsorship.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Requestor")]
-        public async Task<IActionResult> Create(CreateSponsorshipRequestDto dto)
+        public async Task<ActionResult<ApiResponse<SponsorshipRequest>>> Create(CreateSponsorshipRequestDto dto)
         {
             var result = await _service.CreateAsync(dto);
 
@@ -65,7 +65,7 @@ namespace Sponsorship.API.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Requestor")]
-        public async Task<IActionResult> Update(Guid id, UpdateSponsorshipRequestDto dto)
+        public async Task<ActionResult<ApiResponse<SponsorshipRequest>>> Update(Guid id, UpdateSponsorshipRequestDto dto)
         {
             var result = await _service.UpdateAsync(id, dto);
 
@@ -74,69 +74,65 @@ namespace Sponsorship.API.Controllers
 
         [HttpPost("{id}/submit")]
         [Authorize(Roles = "Requestor")]
-        public async Task<IActionResult> Submit(Guid id)
+        public async Task<ActionResult<ApiResponse<SponsorshipRequest>>> Submit(Guid id)
         {
-            await _service.SubmitAsync(id);
+            var result = await _service.SubmitAsync(id);
 
-            return Ok(ApiResponse<object>.SuccessResponse(null, "Request submitted successfully"));
+            return Ok(ApiResponse<SponsorshipRequest>.SuccessResponse(result, "Request submitted successfully"));
         }
 
         [HttpPost("{id}/cancel")]
         [Authorize(Roles = "Requestor")]
-        public async Task<IActionResult> Cancel(Guid id)
+        public async Task<ActionResult<ApiResponse<SponsorshipRequest>>> Cancel(Guid id)
         {
-            await _service.CancelAsync(id);
+            var result = await _service.CancelAsync(id);
 
-            return Ok(ApiResponse<object>.SuccessResponse(null, "Request cancelled successfully"));
+            return Ok(ApiResponse<SponsorshipRequest>.SuccessResponse(result, "Request cancelled successfully"));
         }
 
         [HttpPost("{id}/manager-approve")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> ManagerApprove(Guid id, ApprovalActionDto dto)
+        public async Task<ActionResult<ApiResponse<SponsorshipRequest>>> ManagerApprove(Guid id, ApprovalActionDto dto)
         {
-            await _service.ManagerApproveAsync(id, dto.Remarks);
+            var result = await _service.ManagerApproveAsync(id, dto.Remarks);
 
-            return Ok(ApiResponse<object>.SuccessResponse(null, "Request approved by manager"));
+            return Ok(ApiResponse<SponsorshipRequest>.SuccessResponse(result, "Request approved by manager"));
         }
 
         [HttpPost("{id}/manager-reject")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> ManagerReject(Guid id, ApprovalActionDto dto)
+        public async Task<ActionResult<ApiResponse<SponsorshipRequest>>> ManagerReject(Guid id, ApprovalActionDto dto)
         {
-            await _service.ManagerRejectAsync(id, dto.Remarks);
+            var result = await _service.ManagerRejectAsync(id, dto.Remarks);
 
-            return Ok(ApiResponse<object>.SuccessResponse(null, "Request rejected by manager"));
+            return Ok(ApiResponse<SponsorshipRequest>.SuccessResponse(result, "Request rejected by manager"));
         }
 
         [HttpPost("{id}/finance-approve")]
         [Authorize(Roles = "FinanceAdmin")]
-        public async Task<IActionResult> FinanceApprove(Guid id, ApprovalActionDto dto)
+        public async Task<ActionResult<ApiResponse<SponsorshipRequest>>> FinanceApprove(Guid id, ApprovalActionDto dto)
         {
-            await _service.FinanceApproveAsync(id, dto.Remarks);
+            var result = await _service.FinanceApproveAsync(id, dto.Remarks);
 
-            return Ok(ApiResponse<object>.SuccessResponse(null, "Request approved by finance"));
+            return Ok(ApiResponse<SponsorshipRequest>.SuccessResponse(result, "Request approved by finance"));
         }
 
         [HttpPost("{id}/finance-reject")]
         [Authorize(Roles = "FinanceAdmin")]
-        public async Task<IActionResult> FinanceReject(Guid id, ApprovalActionDto dto)
+        public async Task<ActionResult<ApiResponse<SponsorshipRequest>>> FinanceReject(Guid id, ApprovalActionDto dto)
         {
-            await _service.FinanceRejectAsync(id, dto.Remarks);
+            var result = await _service.FinanceRejectAsync(id, dto.Remarks);
 
-            return Ok(ApiResponse<object>.SuccessResponse(null, "Request rejected by finance"));
+            return Ok(ApiResponse<SponsorshipRequest>.SuccessResponse(result, "Request rejected by finance"));
         }
 
         [HttpGet("all")]
         [Authorize(Roles = "SystemAdmin")]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<ApiResponse<List<SponsorshipRequest>>>> GetAll()
         {
             var data = await _service.GetAllAsync();
 
-            return Ok(
-                ApiResponse<List<SponsorshipRequest>>
-                    .SuccessResponse(
-                        data,
-                        "All requests retrieved"));
+            return Ok(ApiResponse<List<SponsorshipRequest>>.SuccessResponse(data, "All requests retrieved"));
         }
     }
 }
