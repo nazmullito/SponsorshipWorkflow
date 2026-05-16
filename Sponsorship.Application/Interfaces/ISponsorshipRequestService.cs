@@ -31,5 +31,6 @@ namespace Sponsorship.Application.Interfaces
         Task<List<SponsorshipRequest>> GetPendingFinanceRequestsAsync();
 
         Task<List<ApprovalHistory>> GetHistoryAsync(Guid requestId);
+        Task<List<SponsorshipRequest>> GetAllAsync();
     }
 }

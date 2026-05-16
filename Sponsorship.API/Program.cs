@@ -108,6 +108,18 @@ namespace Sponsorship.API
                 });
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("FrontendPolicy",
+                    policy =>
+                    {
+                        policy
+                            .WithOrigins("http://localhost:5173")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             var app = builder.Build();
 
             app.UseSwagger();
@@ -117,6 +129,8 @@ namespace Sponsorship.API
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseHttpsRedirection();
+
+            app.UseCors("FrontendPolicy");
 
             app.UseAuthentication();
 

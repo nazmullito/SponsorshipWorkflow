@@ -28,7 +28,7 @@ namespace Sponsorship.Infrastructure.Services
                 Department = dto.Department,
                 SponsorshipTypeId = dto.SponsorshipTypeId,
                 EventName = dto.EventName,
-                EventDate = dto.EventDate,
+                EventDate = DateTime.SpecifyKind(dto.EventDate, DateTimeKind.Utc),
                 RequestedAmount = dto.RequestedAmount,
                 Purpose = dto.Purpose,
                 ExpectedBusinessBenefit = dto.ExpectedBusinessBenefit,
@@ -291,6 +291,13 @@ namespace Sponsorship.Infrastructure.Services
             _context.ApprovalHistories.Add(history);
 
             await Task.CompletedTask;
+        }
+
+        public async Task<List<SponsorshipRequest>> GetAllAsync()
+        {
+            return await _context.SponsorshipRequests
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
         }
     }
 }

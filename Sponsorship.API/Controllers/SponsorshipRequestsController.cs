@@ -125,5 +125,18 @@ namespace Sponsorship.API.Controllers
 
             return Ok(ApiResponse<object>.SuccessResponse(null, "Request rejected by finance"));
         }
+
+        [HttpGet("all")]
+        [Authorize(Roles = "SystemAdmin")]
+        public async Task<IActionResult> GetAll()
+        {
+            var data = await _service.GetAllAsync();
+
+            return Ok(
+                ApiResponse<List<SponsorshipRequest>>
+                    .SuccessResponse(
+                        data,
+                        "All requests retrieved"));
+        }
     }
 }
