@@ -21,11 +21,7 @@ Enterprise workflow-based sponsorship management platform built with:
 
 [https://sponsorship-workflow-frontend.vercel.app](https://sponsorship-workflow-frontend.vercel.app)
 
-## Backend API URL
-
-[https://sponsorshipworkflow.onrender.com](https://sponsorshipworkflow.onrender.com)
-
-## Swagger Documentation
+## Backend API Swagger Documentation URL
 
 [https://sponsorshipworkflow.onrender.com/swagger/index.html](https://sponsorshipworkflow.onrender.com/swagger/index.html)
 
