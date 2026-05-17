@@ -115,7 +115,8 @@ namespace Sponsorship.API
                     {
                         policy
                             .WithOrigins(
-                                        "http://localhost:5173"
+                                        "http://localhost:5173",
+                                        "https://your-frontend-domain.onrender.com"
                                         )
                             .AllowAnyHeader()
                             .AllowAnyMethod();
