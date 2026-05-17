@@ -114,7 +114,9 @@ namespace Sponsorship.API
                     policy =>
                     {
                         policy
-                            .WithOrigins("http://localhost:5173")
+                            .WithOrigins(
+                                        "http://localhost:5173"
+                                        )
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
@@ -122,9 +124,12 @@ namespace Sponsorship.API
 
             var app = builder.Build();
 
-            app.UseSwagger();
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
 
-            app.UseSwaggerUI();
+                app.UseSwaggerUI();
+            }
 
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
@@ -147,7 +152,9 @@ namespace Sponsorship.API
                 var passwordHasher =
                     services.GetRequiredService<IPasswordHasher>();
 
-                await context.Database.EnsureCreatedAsync();
+                //await context.Database.EnsureCreatedAsync();
+
+                await context.Database.MigrateAsync();
 
                 await DataSeeder.SeedAsync(context, passwordHasher);
             }
