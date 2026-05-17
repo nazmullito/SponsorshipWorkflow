@@ -50,13 +50,27 @@ Enterprise workflow-based sponsorship management platform built with:
 Email:
 
 ```text
-admin@sponsorship.com
+admin@test.com
 ```
 
 Password:
 
 ```text
-Admin123!
+Test123!
+```
+
+## Finance
+
+Email:
+
+```text
+finance@test.com
+```
+
+Password:
+
+```text
+Test123!
 ```
 
 ## Manager
@@ -64,27 +78,27 @@ Admin123!
 Email:
 
 ```text
-manager@sponsorship.com
+manager@test.com
 ```
 
 Password:
 
 ```text
-Manager123!
+Test123!
 ```
 
-## User
+## Requestor
 
 Email:
 
 ```text
-user@sponsorship.com
+requestor@test.com
 ```
 
 Password:
 
 ```text
-User123!
+Test123!
 ```
 
 > Update credentials if your seeded data differs.
