@@ -116,7 +116,7 @@ namespace Sponsorship.API
                         policy
                             .WithOrigins(
                                         "http://localhost:5173",
-                                        "https://your-frontend-domain.onrender.com"
+                                        "https://sponsorship-workflow-frontend.vercel.app"
                                         )
                             .AllowAnyHeader()
                             .AllowAnyMethod();
